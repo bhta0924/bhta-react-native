@@ -1,50 +1,57 @@
-# Welcome to your Expo app 👋
+# Docs
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **Note**: This solution has been tested on expo web.
 
-## Get started
+> **Note**: Needed to use `yarn` here due to issues with `@testing-library`.
 
-1. Install dependencies
+## Goal
 
-   ```bash
-   npm install
-   ```
+The goal was to make this solution review-ready, not production-ready.
 
-2. Start the app
+## Quick start
 
-   ```bash
-    npx expo start
-   ```
+### Running the app
 
-In the output, you'll find options to open the app in a
+**Before you attempt to run anything make sure you have those things installed on your machine**:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```sh
+# Developed and tested on Ubuntu (couldn't use Mac for it) with
+node v >= 20.9.0
+yarn v >= 1.22.17
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+To run react-native app **_in the browser_**:
 
-## Learn more
+```sh
+$ yarn
+$ yarn start
+# the app is running on http://localhost:8081
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+To run tests:
+```sh
+$ yarn test
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Implementation
 
-## Join the community
+### Ideas
 
-Join our community of developers creating universal apps.
+- make the app as simple as possible: care about functionality, not visuals or files structure;
+- use zod to validate external data structure (as we don't actually know it in the runtime);
+- prefetch data where possible (i.e. prefetch position list even if it's visually hidden);
+- use UI-agnostic(-ish), **data-aware** components (placed under `views/` folder) whose only job is to retrieve and pass the data;
+- since I'm not fluent in RN I needed to isolate react-native specific code as much as possible;
+  - the RN code is placed under `app/`, `components/` and `styles/`; **data-aware** components placed under `views/` could be used along with pure react components (the UI component is not injectable though);
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Trade-offs
+
+- used expo framework;
+- zero attention to performance;
+- no data pagination (app prepared to handle infinite scrolling);
+- no actual state management which could work as cache or help to separate visual components from the logic even more;
+- no fancy UI, no fancy animation, no themes, or colors management;
+- visual glitches are fine as long as they don't break functionality;
+- to match the spec I didn't have time to leverage any cool device specific API;
+- external data validation could be better (more error cases covered);
+- basic tests;
